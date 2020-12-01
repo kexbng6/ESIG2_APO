@@ -1,0 +1,7 @@
+--- Notez bien les problèmes et questions que vous rencontrerez.
+
+-1- Ecrivez toutes les classes présentes dans le diagramme de classe ClassesDeBase.jpg
+-2- Complétez au maximum les méthodes. 
+    Au minimum de façon à avoir un code syntaxiquement correct.
+
+

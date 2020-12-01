@@ -1,0 +1,12 @@
+--- Notez bien les problèmes et questions que vous rencontrerez.
+
+-1- Ecrivez une méthode qui lit le fichier data.txt mot par mot et affiche son contenu.
+    A la fin on indique le nombre total de mots aussi.
+-2- Ecrivez une méthode qui lit le fichier data.txt ligne par ligne et affiche son contenu.
+    A la fin on indique le nombre total de lignes aussi.
+-3- Ecrivez une méthode qui lit le fichier data.txt ligne par ligne 
+    et affiche son contenu mot par mot (sur une ligne).
+    A la fin de chaque ligne on indique le nombre total de mots sur la ligne aussi.
+-4- Ecrivez une méthode qui lit le fichier data.txt ligne par ligne,
+    qui n'affiche pas du tout son contenu.
+    A la fin on affiche une liste du nombre de mots sur chaque ligne.

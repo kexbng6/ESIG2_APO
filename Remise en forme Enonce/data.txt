@@ -1,0 +1,23 @@
+Atelier-traders
+p pc-001 Fujistu 1150 2016 3 HDMI DP DP VGA
+m 24 6 HDMI
+m 28 2 DP
+m 28 3 DP
+s smartphone-001 Samsung 850 2017 1 true
+s smartphone-002 huawei 540 2016 2 true
+p pc-002 HP 895 2016 1 HDMI DP
+m 30 4 HDMI
+p pc-003 HP 1475 2018 1 DP DP HDMI HDMI HDMI VGA
+m 22 3 VGA
+s smartphone-003 Apple 990 2018 4 false
+p pc-004 Dell 1239 2017 4 DP DP HDMI VGA
+m 23 5 HDMI
+m 23 6 DP
+m 23 8 DP
+m 23 2 VGA
+p pc-005 Lenovo 1680 2017 1 DP HDMI
+m 32 6 DP
+p pc-006 Fujistu 999 2017 1 HDMI HDMI VGA
+m 30 16 HDMI
+s smartphone-004 Apple 1170 2017 5 true
+s smartphone-005 Apple 1200 2018 1 false
