@@ -65,7 +65,7 @@ class FileChooser extends JFrame implements ActionListener
         //For layout purposes, put the buttons in a separate panel
         JPanel buttonPanel = new JPanel(); //use FlowLayout
         buttonPanel.add(openButton);
-        buttonPanel.add(saveButton);
+//        buttonPanel.add(saveButton);
 
         //Add the buttons and the log to this panel.
         add(buttonPanel, "North");//BorderLayout.PAGE_START);//propre � 1.4
@@ -84,9 +84,25 @@ class FileChooser extends JFrame implements ActionListener
                 File file = fc.getSelectedFile();
                 //This is where a real application would open the file.
                 // log.append("Opening: " + file.getName() + "." + NEWLINE);
-                for (Item i: ListItems.afficheQuestion(file)) {
-                    log.append(i.toString());
-                }
+                String s = JOptionPane.showInputDialog(null, String.valueOf(ListItems.afficheQuestion(file).get(0).question), "Saisir ici");
+                if ( s == null )
+                    System.out.println("l'utilisateur n'a pas validé");
+                else
+                if ( s.equals("") )
+                    System.out.println ("l'utilisateur a saisi une chaîne vide");
+                else
+                    if (s.equals(String.valueOf(ListItems.afficheQuestion(file).get(0).reponse))) {
+                        JOptionPane.showMessageDialog(null, "Bonne réponse, bravo ! Très bon élève", "Félicitations", JOptionPane.INFORMATION_MESSAGE);
+                        System.out.println(s);
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null,  "Malheureusement, '" + s + "' n'est pas la bonne réponse", "Mauvaise réponse", JOptionPane.ERROR_MESSAGE);
+                        System.out.println(s);
+                    }
+//                log.append();
+//                for (Item i: ListItems.afficheQuestion(file)) {
+//                    log.append(i.toString());
+//                }
             }
             else
                 log.append("Open command cancelled by user." + NEWLINE);
