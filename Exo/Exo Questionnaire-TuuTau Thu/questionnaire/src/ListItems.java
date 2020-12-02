@@ -10,25 +10,27 @@ public class ListItems {
         this.listeItems = listeItems;
     }
 
-    public static void afficheQuestion(String nomFichier){
+    public static ArrayList<Item> afficheQuestion(File nomFichier){
         ArrayList<Item> list = new ArrayList<>();
-        int cptId = 0;
+        int cptId = 1;
         try {
-            Scanner scan = new Scanner(new File(nomFichier));
+            Scanner scan = new Scanner(new File(String.valueOf(nomFichier)));
             while (scan.hasNextLine())
             {
                 String question = scan.nextLine();
-                System.out.println(question);
+                // System.out.println(cptId + ". " + question);
                 String reponse = scan.nextLine();
                 Item objet = new Item(question, reponse, cptId);
 
                 list.add(objet);
+                cptId++;
             }
 
         }
         catch (FileNotFoundException e){
             e.printStackTrace();
         }
+        return list;
     }
 
 }

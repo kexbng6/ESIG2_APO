@@ -31,10 +31,6 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item{" +
-                "question='" + question + '\'' +
-                ", reponse='" + reponse + '\'' +
-                ", id=" + id +
-                '}';
+        return getId() + ". " + question + '\n' + "->" + reponse + '\n' ;
     }
 }
