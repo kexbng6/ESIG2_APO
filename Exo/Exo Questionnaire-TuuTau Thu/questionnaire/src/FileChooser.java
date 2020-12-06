@@ -1,8 +1,8 @@
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.filechooser.*;
 
 /*
  * FileChooserDemo.java is a 1.4 application that uses these files:
@@ -53,13 +53,14 @@ class FileChooser extends JFrame implements ActionListener
         //Create the open button.  We use the image from the JLF
         //Graphics Repository (but we extracted it from the jar).
         openButton = new JButton("Ouvrir un fichier...",
-                createImageIcon("../images/Open16.gif"));
+                createImageIcon("images/Open16.gif"));
         openButton.addActionListener(this);
 
         //Create the save button.  We use the image from the JLF
         //Graphics Repository (but we extracted it from the jar).
-        saveButton = new JButton("Enregistrer un fichier...",
-                createImageIcon("../images/Save16.gif"));
+        saveButton = new JButton("Enregistrer un fichier..."/*,
+                createImageIcon("images/Save16.gif")*/
+        );
         saveButton.addActionListener(this);
 
         //For layout purposes, put the buttons in a separate panel
@@ -73,55 +74,63 @@ class FileChooser extends JFrame implements ActionListener
     }
 
 
-    public void actionPerformed(ActionEvent e)
-    {
+    public void actionPerformed(ActionEvent e) {
         //Handle open button action.
-        if (e.getSource() == openButton)
-        {
+        if (e.getSource() == openButton) {
             int returnVal = fc.showOpenDialog(null);//null centre sur l'�cran
-            if (returnVal == JFileChooser.APPROVE_OPTION)
-            {
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fc.getSelectedFile();
+                ArrayList<Integer> idQuestion = new ArrayList<>();
+                int bonneRep = 0;
+                int mauvaiseRep = 0;
                 //This is where a real application would open the file.
                 // log.append("Opening: " + file.getName() + "." + NEWLINE);
-                String s = JOptionPane.showInputDialog(null, String.valueOf(ListItems.afficheQuestion(file).get(0).question), "Saisir ici");
-                if ( s == null )
-                    System.out.println("l'utilisateur n'a pas validé");
-                else
-                if ( s.equals("") )
-                    System.out.println ("l'utilisateur a saisi une chaîne vide");
-                else
-                    if (s.equals(String.valueOf(ListItems.afficheQuestion(file).get(0).reponse))) {
+                for (Item i:ListItems.afficheQuestion(file)) {
+                    String inputUser = JOptionPane.showInputDialog(null, String.valueOf(i.question), "Saisir ici");
+                    if (inputUser == null)
+                        //System.out.println("l'utilisateur n'a pas validé");
+                        break;
+                    else if (inputUser.equals(""))
+                        System.out.println("l'utilisateur a saisi une chaîne vide");
+                    else if (inputUser.equals(String.valueOf(i.reponse))) {
                         JOptionPane.showMessageDialog(null, "Bonne réponse, bravo ! Très bon élève", "Félicitations", JOptionPane.INFORMATION_MESSAGE);
-                        System.out.println(s);
+                        bonneRep++;
+                        System.out.println(inputUser);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Malheureusement, '" + inputUser + "' n'est pas la bonne réponse", "Mauvaise réponse", JOptionPane.ERROR_MESSAGE);
+                        mauvaiseRep++;
+                        idQuestion.add(i.getId());
+                        System.out.println(inputUser);
                     }
-                    else {
-                        JOptionPane.showMessageDialog(null,  "Malheureusement, '" + s + "' n'est pas la bonne réponse", "Mauvaise réponse", JOptionPane.ERROR_MESSAGE);
-                        System.out.println(s);
+                }
+                /*if (idQuestion.size() > 0){
+                    for (int idDansListe: idQuestion){
+                        String inputUser2 = JOptionPane.showInputDialog(null, String.valueOf(ListItems.afficheQuestion(file).get(idDansListe).question));
+                        if(inputUser2.equals(String.valueOf(ListItems.afficheQuestion(file).get(idDansListe).reponse)))
+                        {
+                            JOptionPane.showMessageDialog(null, "Bravo, il s'agit cette fois de la bonne réponse", "Félicitations", JOptionPane.INFORMATION_MESSAGE);
+                            idQuestion.remove(ListItems.afficheQuestion(file).get(idDansListe).getId());
+                            bonneRep++;
+                        }
+                        else mauvaiseRep++;
                     }
-//                log.append();
-//                for (Item i: ListItems.afficheQuestion(file)) {
-//                    log.append(i.toString());
-//                }
+                }*/
+                JOptionPane.showMessageDialog(null,"Bonnes réponses: "+ bonneRep+ NEWLINE +"Mauvaise réponses: " + mauvaiseRep +NEWLINE, "Votre score:", JOptionPane.INFORMATION_MESSAGE);
             }
-            else
-                log.append("Open command cancelled by user." + NEWLINE);
 
 
-            //Handle save button action.
-        } else if (e.getSource() == saveButton)
-        {
-            int returnVal = fc.showSaveDialog(this);//this centre sur la fen�te "parent"
-            if (returnVal == JFileChooser.APPROVE_OPTION)
-            {
-                File file = fc.getSelectedFile();
-                //This is where a real application would save the file.
-                log.append("Saving: " + file/*.getName()*/ + "." + NEWLINE);
+                //Handle save button action.
+            } else if (e.getSource() == saveButton) {
+                int returnVal = fc.showSaveDialog(this);//this centre sur la fen�te "parent"
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    File file = fc.getSelectedFile();
+                    //This is where a real application would save the file.
+                    log.append("Saving: " + file/*.getName()*/ + "." + NEWLINE);
+                } else
+                    log.append("Save command cancelled by user." + NEWLINE);
             }
-            else
-                log.append("Save command cancelled by user." + NEWLINE);
         }
-    }
+
 
     /** Returns an ImageIcon, or null if the path was invalid. */
     protected static ImageIcon createImageIcon(String path) {
