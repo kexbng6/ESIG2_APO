@@ -80,7 +80,7 @@ class FileChooser extends JFrame implements ActionListener
             int returnVal = fc.showOpenDialog(null);//null centre sur l'�cran
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fc.getSelectedFile();
-                ArrayList<Integer> idQuestion = new ArrayList<>();
+                ArrayList<Item> questionFausse = new ArrayList<>();
                 int bonneRep = 0;
                 int mauvaiseRep = 0;
                 //This is where a real application would open the file.
@@ -99,22 +99,26 @@ class FileChooser extends JFrame implements ActionListener
                     } else {
                         JOptionPane.showMessageDialog(null, "Malheureusement, '" + inputUser + "' n'est pas la bonne réponse", "Mauvaise réponse", JOptionPane.ERROR_MESSAGE);
                         mauvaiseRep++;
-                        idQuestion.add(i.getId());
+                        questionFausse.add(i);
                         System.out.println(inputUser);
                     }
                 }
-                /*if (idQuestion.size() > 0){
-                    for (int idDansListe: idQuestion){
-                        String inputUser2 = JOptionPane.showInputDialog(null, String.valueOf(ListItems.afficheQuestion(file).get(idDansListe).question));
-                        if(inputUser2.equals(String.valueOf(ListItems.afficheQuestion(file).get(idDansListe).reponse)))
-                        {
-                            JOptionPane.showMessageDialog(null, "Bravo, il s'agit cette fois de la bonne réponse", "Félicitations", JOptionPane.INFORMATION_MESSAGE);
-                            idQuestion.remove(ListItems.afficheQuestion(file).get(idDansListe).getId());
-                            bonneRep++;
+                if (questionFausse.size() > 0){
+                    while (questionFausse.size() >0){
+                        for (Item askDansListe: questionFausse) {
+                            String inputUser2 = JOptionPane.showInputDialog(null, String.valueOf(askDansListe.question), "Saisir ici");
+                            if (inputUser2.equals(String.valueOf(askDansListe.reponse))) {
+                                JOptionPane.showMessageDialog(null, "Bravo, il s'agit cette fois de la bonne réponse", "Félicitations", JOptionPane.INFORMATION_MESSAGE);
+                                questionFausse.remove(askDansListe);
+                                bonneRep++;
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Navré, '" + inputUser2 + "' n'est toujours pas la bonne réponse", "Encore faux", JOptionPane.ERROR_MESSAGE);
+//                                questionFausse.add(askDansListe);
+                                mauvaiseRep++;
+                                }
                         }
-                        else mauvaiseRep++;
                     }
-                }*/
+                }
                 JOptionPane.showMessageDialog(null,"Bonnes réponses: "+ bonneRep+ NEWLINE +"Mauvaise réponses: " + mauvaiseRep +NEWLINE, "Votre score:", JOptionPane.INFORMATION_MESSAGE);
             }
 
