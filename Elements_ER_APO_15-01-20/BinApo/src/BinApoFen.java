@@ -1,18 +1,15 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class BinApoFen extends JFrame implements ActionListener
 {
     public static final int TAILLE_GRILLE = 8;
     public static final File REP_DEPART = new File("Grilles");
-    public JButton LireBtn, FigerBtn, EnregistrerBtn, ResoudreBtn, Partie_IIBtn, TesterBtn, RAZBtn, QuitterBtn;
+    public JButton lireBtn, figerBtn, enregistrerBtn, resoudreBtn, partie_IIBtn, testBtn, razBtn, quitterBtn;
     public JTextArea log;
+    public JFileChooser fc;
 
     BinApoPanel[][] grille = new BinApoPanel[TAILLE_GRILLE][TAILLE_GRILLE];
 
@@ -24,41 +21,41 @@ public class BinApoFen extends JFrame implements ActionListener
         JPanel zoBtnBas = new JPanel();
 
 
-        LireBtn = new JButton("Lire");
-        LireBtn.addActionListener(this);
-        zoBtnHaut.add(LireBtn);
+        lireBtn = new JButton("Lire");
+        lireBtn.addActionListener(this);
+        zoBtnHaut.add(lireBtn);
 
-        FigerBtn = new JButton("Figer");
-        FigerBtn.addActionListener(this);
-        FigerBtn.setEnabled(false);
-        zoBtnHaut.add(FigerBtn);
+        figerBtn = new JButton("Figer");
+        figerBtn.addActionListener(this);
+        figerBtn.setEnabled(false);
+        zoBtnHaut.add(figerBtn);
 
-        EnregistrerBtn = new JButton("Enregistrer");
-        EnregistrerBtn.addActionListener(this);
-        EnregistrerBtn.setEnabled(false);
-        zoBtnHaut.add(EnregistrerBtn);
+        enregistrerBtn = new JButton("Enregistrer");
+        enregistrerBtn.addActionListener(this);
+        enregistrerBtn.setEnabled(false);
+        zoBtnHaut.add(enregistrerBtn);
 
 
-        ResoudreBtn = new JButton("Resoudre");
-        ResoudreBtn.addActionListener(this);
-        ResoudreBtn.setEnabled(false);
-        zoBtnHaut.add(ResoudreBtn);
+        resoudreBtn = new JButton("Resoudre");
+        resoudreBtn.addActionListener(this);
+        resoudreBtn.setEnabled(false);
+        zoBtnHaut.add(resoudreBtn);
 
-        Partie_IIBtn = new JButton("Partie II");
-        Partie_IIBtn.addActionListener(this);
-        zoBtnBas.add(Partie_IIBtn);
+        partie_IIBtn = new JButton("Partie II");
+        partie_IIBtn.addActionListener(this);
+        zoBtnBas.add(partie_IIBtn);
 
-        TesterBtn = new JButton("Tester");
-        TesterBtn.addActionListener(this);
-        zoBtnBas.add(TesterBtn);
+        testBtn = new JButton("Tester");
+        testBtn.addActionListener(this);
+        zoBtnBas.add(testBtn);
 
-        RAZBtn = new JButton("RAZ");
-        RAZBtn.addActionListener(this);
-        zoBtnBas.add(RAZBtn);
+        razBtn = new JButton("RAZ");
+        razBtn.addActionListener(this);
+        zoBtnBas.add(razBtn);
 
-        QuitterBtn = new JButton("Quitter");
-        QuitterBtn.addActionListener(this);
-        zoBtnBas.add(QuitterBtn);
+        quitterBtn = new JButton("Quitter");
+        quitterBtn.addActionListener(this);
+        zoBtnBas.add(quitterBtn);
 
 
         add(zoBtnHaut, "North");//BorderLayout.PAGE_START);//propre � 1.4
@@ -68,6 +65,8 @@ public class BinApoFen extends JFrame implements ActionListener
         log = new JTextArea(5,5);
         add(log);
         log.setEditable(false);
+
+        fc = new JFileChooser("../");
     }
 
 
@@ -92,7 +91,21 @@ public class BinApoFen extends JFrame implements ActionListener
     }
 
     @Override
-    public void actionPerformed(ActionEvent actionEvent) {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == lireBtn) {
+            int returnVal = fc.showOpenDialog(null);//null centre sur l'�cran
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fc.getSelectedFile();
+                figerBtn.setEnabled(true);
+                enregistrerBtn.setEnabled(true);
+                resoudreBtn.setEnabled(true);
+                log.setText(file.toString());
 
+
+
+
+
+            }
+        }
     }
 }
