@@ -5,5 +5,7 @@ public class BinApoMain
         BinApoFen baf = new BinApoFen("Travail de <Kevin>");
         baf.pack();
         baf.setVisible(true);
+
+
     }
 }
