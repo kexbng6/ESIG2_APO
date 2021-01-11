@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class BinApoFen extends JFrame implements ActionListener {
@@ -12,6 +13,8 @@ public class BinApoFen extends JFrame implements ActionListener {
     public static final File REP_DEPART = new File("Grilles");
     public JButton lireBtn, figerBtn, enregistrerBtn, resoudreBtn, partie_IIBtn, testBtn, razBtn, quitterBtn;
     public JTextArea log;
+    ArrayList<String> listRep = new ArrayList<>();
+
 
     public JFileChooser fc;
 
@@ -109,12 +112,15 @@ public class BinApoFen extends JFrame implements ActionListener {
         log.append(message + System.lineSeparator());
     }
 
-    private static int compterNbGrille(File nomFichier){
+    public int compterNbGrille(File nomFichier){
         int nbGrille = 0;
         for (File f: nomFichier.listFiles())
         {
             if (f.isDirectory())
             {
+                if (f.listFiles().length == 0 && !listRep.contains(f.getName())) {
+                    listRep.add(f.toString());
+                }
                 //r++;//le répertoire lui-même compte pour un fichier
                 nbGrille+=compterNbGrille(f); //l'appel récursif compte le nombre de fichiers dans le répertoire
             }
@@ -201,8 +207,9 @@ public class BinApoFen extends JFrame implements ActionListener {
             String inputUser = JOptionPane.showInputDialog(null, "Entrez la chaine à tester", "Test de conformité", JOptionPane.QUESTION_MESSAGE);
             if (inputUser == null || inputUser.length() != 3 | !inputUser.contains("0") | !inputUser.contains("1")) {
                 JOptionPane.showMessageDialog(null, "Erreur de saisie !" + NEWLINE + "APO", "Attention !", JOptionPane.ERROR_MESSAGE);
-            } else if (inputUser.equals("000") || inputUser.equals("111")) {
-                JOptionPane.showMessageDialog(null, "Erreur de syntaxe !" + NEWLINE + inputUser, "Attention !", JOptionPane.WARNING_MESSAGE);
+                if (inputUser.equals("000") || inputUser.equals("111")) {
+                    JOptionPane.showMessageDialog(null, "Erreur de syntaxe !" + NEWLINE + inputUser, "Attention !", JOptionPane.WARNING_MESSAGE);
+                }
             } else {
                 JOptionPane.showMessageDialog(null, inputUser + " est conforme", "Tout va bien !", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -211,9 +218,10 @@ public class BinApoFen extends JFrame implements ActionListener {
             System.exit(0);
         }
         if (e.getSource() == partie_IIBtn) {
-//            compterNbGrille(REP_DEPART);
-            log.setText("Nombre de grilles: " + compterNbGrille(REP_DEPART));
+            log.append("Nombre de grilles: " + compterNbGrille(REP_DEPART) + NEWLINE + "Nombre de répertoire vide: " + listRep.size() + NEWLINE);
+            for (String r:listRep){
+                log.append("-" + r + NEWLINE);
+            }
         }
-
     }
 }
