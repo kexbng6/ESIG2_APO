@@ -1,0 +1,17 @@
+Nb : lister = créer une liste, pas seulement afficher
+
+Exercices récursivité "pure"
+- lister les permutations (de ABCD p. ex.)
+- afficher (ou mieux) les permutations de 
+       Belle Marquise
+       vos beaux yeux
+       me font
+       mourir
+       d'amour
+
+Exercices arbres binaires
+-1- créer une liste (lister) des nombres dans l'ordre (inspirez-vous de parcours())
+-2- calculer la somme des nombres dans l'arbre
+-3- compter le nombre de feuilles ( feuille = noeud sans fils)
+-4- afficher les valeurs portées par les feuilles
+-5- lister les valeurs portées par les feuilles
