@@ -4,21 +4,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class BinApoFen extends JFrame implements ActionListener
-{
+public class BinApoFen extends JFrame implements ActionListener {
+    private static final String NEWLINE = System.lineSeparator(); // "\n" sous Windows
     public static final int TAILLE_GRILLE = 8;
     public static final File REP_DEPART = new File("Grilles");
     public JButton lireBtn, figerBtn, enregistrerBtn, resoudreBtn, partie_IIBtn, testBtn, razBtn, quitterBtn;
     public JTextArea log;
+    ArrayList<String> listRep = new ArrayList<>();
+
 
     public JFileChooser fc;
 
     BinApoPanel[][] grille = new BinApoPanel[TAILLE_GRILLE][TAILLE_GRILLE];
 
-    BinApoFen(String titre)
-    {
+    BinApoFen(String titre) {
         super(titre);
 
         JPanel zoBtnHaut = new JPanel();
@@ -39,7 +41,6 @@ public class BinApoFen extends JFrame implements ActionListener
         }
 
         gauche.add(zoGauche, "West");
-
         lireBtn = new JButton("Lire");
         lireBtn.addActionListener(this);
         zoBtnHaut.add(lireBtn);
@@ -81,39 +82,54 @@ public class BinApoFen extends JFrame implements ActionListener
         droite.add(zoBtnBas, "South");//BorderLayout.CENTER);//propre � 1.4
 
 
-        log = new JTextArea(5,5);
+        log = new JTextArea(5, 5);
         JScrollPane scrollo = new JScrollPane(log);
         droite.add(scrollo);
         log.setEditable(false);
 
 
-        add(gauche,"West");
-        add(droite,"East");
+        add(gauche, "West");
+        add(droite, "East");
 
         fc = new JFileChooser("../");
 
     }
 
 
-
-
-    public static String findExtension(File f)
-    {
-        if ( f != null )
-        {
+    public static String findExtension(File f) {
+        if (f != null) {
             String s = f.getName();
             int posDernierPoint = s.lastIndexOf('.');
-            if ( posDernierPoint == -1 ) // le fichier n'a pas d'extension
+            if (posDernierPoint == -1) // le fichier n'a pas d'extension
                 return "";
             else
-                return s.substring(posDernierPoint+1).toLowerCase();
+                return s.substring(posDernierPoint + 1).toLowerCase();
         }
         return "";
     }
 
-    private void afficher(JTextArea log, String message)
-    {
-        log.append(message+System.lineSeparator());
+    private void afficher(JTextArea log, String message) {
+        log.append(message + System.lineSeparator());
+    }
+
+    public int compterNbGrille(File nomFichier){
+        int nbGrille = 0;
+        for (File f: nomFichier.listFiles())
+        {
+            if (f.isDirectory())
+            {
+                if (f.listFiles().length == 0 && !listRep.contains(f.getName())) {
+                    listRep.add(f.toString());
+                }
+                //r++;//le répertoire lui-même compte pour un fichier
+                nbGrille+=compterNbGrille(f); //l'appel récursif compte le nombre de fichiers dans le répertoire
+            }
+            else if (findExtension(f).equals("txt") && f.getName().startsWith("Grille"))
+            {
+                nbGrille++;//un fichier de plus
+            }
+        }
+        return nbGrille;
     }
 
     @Override
@@ -125,34 +141,86 @@ public class BinApoFen extends JFrame implements ActionListener
                 figerBtn.setEnabled(true);
                 enregistrerBtn.setEnabled(true);
                 resoudreBtn.setEnabled(true);
-                log.setText(file.toString());
+                log.setText("Fichier choisi :\n" + file.toString());
 
-
-                    try (Scanner sc = new Scanner(file)) {
-
-                        int ligne = 0;
-
-                        while (sc.hasNextLine()) {
-                            int colonne = 0;
-                            String line = sc.nextLine();
-                            Scanner sc2 = new Scanner(line);
-                                while (sc2.hasNext()){
-                                    int val = Integer.parseInt(sc.nextLine());
-                                    grille[ligne][colonne].setValeur(val);
-                                    colonne++;
-                                }
-                                ligne++;
-
-                            //System.out.println(plan);
+                try (Scanner sc = new Scanner(file)) {
+                    int ligne = 0;
+                    while (sc.hasNextLine()) {
+                        int colonne = 0;
+                        String line = sc.nextLine();
+                        Scanner sc2 = new Scanner(line);
+                        while (sc2.hasNext()) {
+                            int val = Integer.parseInt(sc2.next());
+                            grille[ligne][colonne].setValeur(val);
+                            colonne++;
                         }
-                    } catch (FileNotFoundException fnfe) {
-                        System.out.println("fichier non trouvé.. flute de zut =(");
+                        ligne++;
                     }
+                } catch (FileNotFoundException fnfe) {
+                    log.setText("fichier non trouvé.. flute de zut =(");
+                }
+
+            }
+        }
+        if (e.getSource() == enregistrerBtn) {
+            JOptionPane.showMessageDialog(null, "Pas encore implémenté", "Patience !", JOptionPane.WARNING_MESSAGE);
+        }
 
 
+        if (e.getSource() == resoudreBtn) {
+            log.setText("Ce que je peux dire pour l'instant, c'est que :\n");
+            for (int i = 0; i < TAILLE_GRILLE; i++) {
+                for (int j = 0; j < TAILLE_GRILLE; j++) {
+                    if (grille[i][j].getValeur() == -1) {
+                        log.setText("Il reste de cases vides. La grille n'est pas remplie !");
+                    } else {
+                        log.setText("La grille est remplie !\n" + "Le jeu est terminé.");
+                    }
+                }
+            }
+        }
+
+        if (e.getSource() == figerBtn) {
+            for (int i = 0; i < TAILLE_GRILLE; i++) {
+                for (int j = 0; j < TAILLE_GRILLE; j++) {
+                    if (grille[i][j].getValeur() != -1) {
+                        grille[i][j].setEnabled(false);
+                        log.setText("La grille est figée");
+                    }
+                }
+            }
+        }
+        if (e.getSource() == razBtn) {
+            for (int i = 0; i < TAILLE_GRILLE; i++) {
+                for (int j = 0; j < TAILLE_GRILLE; j++) {
+                    grille[i][j].reset();
+                }
+                figerBtn.setEnabled(false);
+                enregistrerBtn.setEnabled(false);
+                resoudreBtn.setEnabled(false);
+                log.setText("");
 
 
-
+            }
+        }
+        if (e.getSource() == testBtn) {
+            String inputUser = JOptionPane.showInputDialog(null, "Entrez la chaine à tester", "Test de conformité", JOptionPane.QUESTION_MESSAGE);
+            if (inputUser == null || inputUser.length() != 3 | !inputUser.contains("0") | !inputUser.contains("1")) {
+                JOptionPane.showMessageDialog(null, "Erreur de saisie !" + NEWLINE + "APO", "Attention !", JOptionPane.ERROR_MESSAGE);
+                if (inputUser.equals("000") || inputUser.equals("111")) {
+                    JOptionPane.showMessageDialog(null, "Erreur de syntaxe !" + NEWLINE + inputUser, "Attention !", JOptionPane.WARNING_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, inputUser + " est conforme", "Tout va bien !", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        if (e.getSource() == quitterBtn) {
+            System.exit(0);
+        }
+        if (e.getSource() == partie_IIBtn) {
+            log.append("Nombre de grilles: " + compterNbGrille(REP_DEPART) + NEWLINE + "Nombre de répertoire vide: " + listRep.size() + NEWLINE);
+            for (String r:listRep){
+                log.append("-" + r + NEWLINE);
             }
         }
     }
