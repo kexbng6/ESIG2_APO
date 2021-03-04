@@ -1,0 +1,16 @@
+1 forward
+1 backward
+1 right
+1 left
+0 penUp
+0 penDown
+0 hideTurtle
+0 showTurtle
+0 makeTurtle
+2 setPos
+-1 def
+-2 repeat
+-3 appel
+-4 backtab
+-5 Enregistrer
+-6 Quitter

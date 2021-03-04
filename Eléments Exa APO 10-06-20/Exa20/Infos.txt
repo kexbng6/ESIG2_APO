@@ -1,0 +1,23 @@
+Poisson; Examen initialement prévu le 1er avril
+Chondrichtyen;poisson cartilagineux
+Ostéichthyen-Actinoptérygien;poisson osseux avec nageoires rayonnées
+Téléostéen; Choisissez une famille
+perche; https://fr.wikipedia.org/wiki/Perche_commune
+anguille d'eau douce; https://fr.wikipedia.org/wiki/Anguilla_(genre)
+corégone; https://fr.wikipedia.org/wiki/Cor%C3%A9gone_blanc
+omble chevalier; https://fr.wikipedia.org/wiki/Omble_chevalier
+truite; https://fr.wikipedia.org/wiki/Truite
+raie; https://fr.wikipedia.org/wiki/Raie
+requin; https://fr.wikipedia.org/wiki/Requin
+tanche; https://fr.wikipedia.org/wiki/Tanche
+chevaine; https://fr.wikipedia.org/wiki/Chevesne
+ablette; https://fr.wikipedia.org/wiki/Ablette
+vengeron (gardon); https://fr.wikipedia.org/wiki/Gardon_(poisson)
+brème; https://fr.wikipedia.org/wiki/Br%C3%A8me_commune
+carpe; https://fr.wikipedia.org/wiki/Carpe_commune
+goujon; https://fr.wikipedia.org/wiki/Goujon_(poisson)
+chabot; https://fr.wikipedia.org/wiki/Chabot_(poisson)
+épinoche; https://fr.wikipedia.org/wiki/Gasterosteus_aculeatus
+lotte; https://fr.wikipedia.org/wiki/Lotte_(poisson)
+brochet; https://fr.wikipedia.org/wiki/Grand_brochet
+silure; https://fr.wikipedia.org/wiki/Silure
