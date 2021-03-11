@@ -1,0 +1,23 @@
+- Créer un nouveau projet IntelliJ
+
+- Récupérer les fichiers .tirage et .carton et 
+  les copier dans le répertoire du projet
+
+- Prévoir une fenêtre à base de JSplitPane
+- Programmer la construction et l'affichage d'une arborescence comme ceci 
+  (côté gauche du JSplitPane) :
+  
+  Données
+     _ Tirages
+	tirage1.tirage
+        tirage2.tirage
+     _ Cartons
+	carton1.carton
+
+- Etape ultérieure : si on clique sur un tirage ou un carton, 
+                     afficher son contenu dans le côté droit du JSplitPane
+		     (comportement à choix si on clique sur un autre noeud)
+
+- Etape supplémentaire : rendre le programme adaptable 
+                         aux fichiers réellement présents (au démarrage)
+			 dans le répertoire du projet
